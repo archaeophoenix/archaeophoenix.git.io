@@ -35,12 +35,134 @@
 	<!-- Flexslider  -->
 	<link rel="stylesheet" href="css/flexslider.css">
 	<!-- Flaticons  -->
-	<link rel="stylesheet" href="fonts/flaticon/font/flaticon.css">
+	<!-- <link rel="stylesheet" href="fonts/flaticon/font/flaticon.css"> -->
 	<!-- Owl Carousel -->
 	<link rel="stylesheet" href="css/owl.carousel.min.css">
 	<link rel="stylesheet" href="css/owl.theme.default.min.css">
 	<!-- Theme style  -->
 	<link rel="stylesheet" href="css/style.css">
+  <style type="text/css">
+     #map {
+      height: 400px;
+      /* The height is 400 pixels */
+      width: 100%;
+      /* The width is the width of the web page */
+    }
+  </style>
+  <script>
+    var map;
+    var InforObj = [];
+    var centerCords = {
+      lat: -0.789275,
+      lng: 113.921327
+    };
+    var markersOnMap = [{
+        placeName: 'Cianjur',
+        content: '<a href="mailto:Cianjur@nusantara.net.id">Cianjur@nusantara.net.id</a>',
+        LatLng: [{lat: -6.824610, lng: 107.132580}]
+      },{
+        placeName: 'Sukabumi',
+        content: '<a href="mailto:Sukabumi@nusantara.net.id">Sukabumi@nusantara.net.id</a>',
+        LatLng: [{lat: -6.481170, lng: 106.735180}]
+      },{
+        placeName: 'Nganjuk',
+        content: '<a href="mailto:Nganjuk@nusantara.net.id">Nganjuk@nusantara.net.id</a>',
+        LatLng: [{lat: -8.252400, lng: 113.178560}]
+      },{
+        placeName: 'Tulungagung',
+        content: '<a href="mailto:Tulungagung@nusantara.net.id">Tulungagung@nusantara.net.id</a>',
+        LatLng: [{lat: -7.473900, lng: 112.454270}]
+      },{
+        placeName: 'Bengkulu Selatan',
+        content: '<a href="mailto:BengkuluSelatan@nusantara.net.id">BengkuluSelatan@nusantara.net.id</a>',
+        LatLng: [{lat: -4.831420, lng: 103.409860}]
+      },{
+        placeName: 'Bukittinggi',
+        content: '<a href="mailto:Bukittinggi@nusantara.net.id">Bukittinggi@nusantara.net.id</a>',
+        LatLng: [{lat: -0.308420, lng: 100.371190}]
+      },{
+        placeName: 'Bali',
+        content: '<a href="mailto:Bali@nusantara.net.id">Bali@nusantara.net.id</a>',
+        LatLng: [{lat: -8.554490, lng: 115.144960}]
+      },{
+        placeName: 'Kalimantan Tengah',
+        content: '<a href="mailto:KalimantanTengah@nusantara.net.id">KalimantanTengah@nusantara.net.id</a>',
+        LatLng: [{lat: -2.454760, lng: 111.934640}]
+      },{
+        placeName: 'Sulawesi Tengah',
+        content: '<a href="mailto:SulawesiTengah@nusantara.net.id">SulawesiTengah@nusantara.net.id</a>',
+        LatLng: [{lat: -0.875530, lng: 119.832040}]
+      },{
+        placeName: 'Tanggerang Selatan',
+        content: '<a href="mailto:TanggerangSelatan@nusantara.net.id">TanggerangSelatan@nusantara.net.id</a>',
+        LatLng: [{lat: -6.345551, lng: 106.713105}]
+      },{
+        placeName: 'Ogan Komering Ilir',
+        content: '<a href="mailto:OganKomeringIlir@nusantara.net.id">OganKomeringIlir@nusantara.net.id</a>',
+        LatLng: [{lat: -3.7771073, lng: 105.0536386}]
+      },{
+        placeName: 'Kolaka',
+        content: '<a href="mailto:Kolaka@nusantara.net.id">Kolaka@nusantara.net.id</a>',
+        LatLng: [{lat: -4.064795, lng: 121.622591}]
+      }
+    ];
+
+    window.onload = function () {
+      initMap();
+    };
+
+    function addMarkerInfo() {
+      for (var i = 0; i < markersOnMap.length; i++) {
+        var contentString = markersOnMap[i].content;
+        // '<div id="content"><h1>' + + '</h1><p>Lorem ipsum dolor sit amet, vix mutat posse suscipit id, vel ea tantas omittam detraxit.</p></div>';
+
+        const marker = new google.maps.Marker({
+          position: markersOnMap[i].LatLng[0],
+          map: map
+        });
+
+        const infowindow = new google.maps.InfoWindow({
+          content: contentString,
+          maxWidth: 200
+        });
+
+        marker.addListener('click', function () {
+          closeOtherInfo();
+          infowindow.open(marker.get('map'), marker);
+          InforObj[0] = infowindow;
+        });
+        // marker.addListener('mouseover', function () {
+        //   closeOtherInfo();
+        //   infowindow.open(marker.get('map'), marker);
+        //   InforObj[0] = infowindow;
+        // });
+        // marker.addListener('mouseout', function () {
+        //   closeOtherInfo();
+        //   infowindow.close();
+        //   InforObj[0] = infowindow;
+        // });
+      }
+    }
+
+    function closeOtherInfo() {
+      if (InforObj.length > 0) {
+        /* detach the info-window from the marker ... undocumented in the API docs */
+        InforObj[0].set("marker", null);
+        /* and close it */
+        InforObj[0].close();
+        /* blank the array */
+        InforObj.length = 0;
+      }
+    }
+
+    function initMap() {
+      map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 4,
+        center: centerCords
+      });
+      addMarkerInfo();
+    }
+  </script>
 
 	<!-- Modernizr JS -->
 	<script src="js/modernizr-2.6.2.min.js"></script>
@@ -68,8 +190,8 @@
 						<li><a href="#" data-nav-section="experience">Profil</a></li>
 						<li><a href="#" data-nav-section="services">Keunggulan</a></li>
 						<li><a href="#" data-nav-section="education">Layanan</a></li>
-						<!-- <li><a href="#" data-nav-section="skills">Skills</a></li>
-						<li><a href="#" data-nav-section="work">Work</a></li>
+						<li><a href="#" data-nav-section="skills">Coverage</a></li>
+						<!-- <li><a href="#" data-nav-section="work">Work</a></li>
 						<li><a href="#" data-nav-section="blog">Blog</a></li> -->
 						<li><a href="#" data-nav-section="contact">Kontak</a></li>
 					</ul>
@@ -524,7 +646,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
         </div>
       </section>
 			
-			<!-- <div id="colorlib-counter" class="colorlib-counters" style="background-image: url(images/cover_bg_1.jpg);" data-stellar-background-ratio="0.5">
+			<div id="colorlib-counter" class="colorlib-counters" style="background-image: url(images/cover_bg_1.jpg);" data-stellar-background-ratio="0.5">
 				<div class="overlay"></div>
 				<div class="colorlib-narrow-content">
 					<div class="row">
@@ -548,89 +670,23 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 						</div>
 					</div>
 				</div>
-			</div> -->
+			</div>
 
-			<!-- <section class="colorlib-skills" data-section="skills">
+			<section class="colorlib-skills" data-section="skills">
 				<div class="colorlib-narrow-content">
 					<div class="row">
 						<div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
-							<span class="heading-meta">My Specialty</span>
-							<h2 class="colorlib-heading animate-box">My Skills</h2>
+							<!-- <span class="heading-meta">My Specialty</span> -->
+							<h2 class="colorlib-heading animate-box">Coverage Area</h2>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-12 animate-box" data-animate-effect="fadeInLeft">
-							<p>The Big Oxmox advised her not to do so, because there were thousands of bad Commas, wild Question Marks and devious Semikoli, but the Little Blind Text didn’t listen. She packed her seven versalia, put her initial into the belt and made herself on the way.</p>
-						</div>
-						<div class="col-md-6 animate-box" data-animate-effect="fadeInLeft">
-							<div class="progress-wrap">
-								<h3>Photoshop</h3>
-								<div class="progress">
-								 	<div class="progress-bar color-1" role="progressbar" aria-valuenow="75"
-								  	aria-valuemin="0" aria-valuemax="100" style="width:75%">
-								    <span>75%</span>
-								  	</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-6 animate-box" data-animate-effect="fadeInRight">
-							<div class="progress-wrap">
-								<h3>jQuery</h3>
-								<div class="progress">
-								 	<div class="progress-bar color-2" role="progressbar" aria-valuenow="60"
-								  	aria-valuemin="0" aria-valuemax="100" style="width:60%">
-								    <span>60%</span>
-								  	</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-6 animate-box" data-animate-effect="fadeInLeft">
-							<div class="progress-wrap">
-								<h3>HTML5</h3>
-								<div class="progress">
-								 	<div class="progress-bar color-3" role="progressbar" aria-valuenow="85"
-								  	aria-valuemin="0" aria-valuemax="100" style="width:85%">
-								    <span>85%</span>
-								  	</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-6 animate-box" data-animate-effect="fadeInRight">
-							<div class="progress-wrap">
-								<h3>CSS3</h3>
-								<div class="progress">
-								 	<div class="progress-bar color-4" role="progressbar" aria-valuenow="90"
-								  	aria-valuemin="0" aria-valuemax="100" style="width:90%">
-								    <span>90%</span>
-								  	</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-6 animate-box" data-animate-effect="fadeInLeft">
-							<div class="progress-wrap">
-								<h3>WordPress</h3>
-								<div class="progress">
-								 	<div class="progress-bar color-5" role="progressbar" aria-valuenow="70"
-								  	aria-valuemin="0" aria-valuemax="100" style="width:70%">
-								    <span>70%</span>
-								  	</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-6 animate-box" data-animate-effect="fadeInRight">
-							<div class="progress-wrap">
-								<h3>SEO</h3>
-								<div class="progress">
-								 	<div class="progress-bar color-6" role="progressbar" aria-valuenow="80"
-								  	aria-valuemin="0" aria-valuemax="100" style="width:80%">
-								    <span>80%</span>
-								  	</div>
-								</div>
-							</div>
+							<div id="map"></div>
 						</div>
 					</div>
 				</div>
-			</section> -->
+			</section>
 
 			<!-- <section class="colorlib-work" data-section="work">
 				<div class="colorlib-narrow-content">
@@ -743,9 +799,9 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 						</div>
 					</div>
 				</div>
-			</section> -->
+			</section>
 
-			<!-- <section class="colorlib-blog" data-section="blog">
+			<section class="colorlib-blog" data-section="blog">
 				<div class="colorlib-narrow-content">
 					<div class="row">
 						<div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
@@ -877,8 +933,8 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	<script src="js/owl.carousel.min.js"></script>
 	<!-- Counters -->
 	<script src="js/jquery.countTo.js"></script>
-	
-	
+
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAi2h3RXGZLOa9-PsQEpLxlJnbeSbDF8sA"></script>
 	<!-- MAIN JS -->
 	<script src="js/main.js"></script>
 
